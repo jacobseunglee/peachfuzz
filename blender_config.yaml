@@ -1,0 +1,38 @@
+# TeamBlender Configuration File with Host Discovery
+# This file controls host discovery, team iteration, and execution settings
+
+# Host discovery settings - generates hosts.txt from scanning one reference team
+hosts:
+  enabled: true                     
+  reference_team: 0
+  placeholder: "team"                           
+  host_pattern: "10.188.{team}.0/24"            
+  file: "hosts.txt"                
+  auto_generate: true                                 
+  teams:
+    start: 0
+    end: 1
+
+scan:
+  discovery_ports:
+    - 22
+    - 3389
+    - 80
+    - 8080
+    - 443
+    - 3306
+    - 5432
+  ports:
+
+  file: "past_scan.json" 
+
+execution:
+  parallel: true                   # Enable parallel processing
+  max_workers: 10                   # Maximum concurrent workers
+  timeout: 300                      # Timeout in seconds per operation
+
+# Port checker settings  
+port_checker:
+  timeout: .5                       # Connection timeout per port
+  max_retries: 2                  # Maximum retry attempts
+  delay_between_retries: 1          # Delay between retries in seconds

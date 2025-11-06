@@ -1,0 +1,17 @@
+# TeamBlender Python Requirements
+# Install with: pip install -r requirements.txt
+
+# YAML configuration parsing
+PyYAML>=6.0
+
+# Optional: For enhanced async/parallel processing (future feature)
+# asyncio  # Built into Python 3.7+
+
+# Optional: For enhanced logging and progress bars
+# tqdm>=4.65.0
+# colorlog>=6.7.0
+
+# Development dependencies (optional)
+# pytest>=7.0.0
+# black>=23.0.0
+# mypy>=1.0.0
