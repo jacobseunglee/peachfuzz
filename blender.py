@@ -11,6 +11,7 @@ from portchecker import check_ports
 from concurrent.futures import ThreadPoolExecutor
 import time
 import threading
+from datetime import datetime
 
 class Blender:
     
@@ -50,6 +51,9 @@ class Blender:
             # Backup existing file before overwriting
             if Path(self.hosts_file).exists():
                 backup_file = f"{self.hosts_file}.backup"
+                # Remove existing backup file if it exists
+                if Path(backup_file).exists():
+                    Path(backup_file).unlink()
                 Path(self.hosts_file).rename(backup_file)
                 print(f"Backed up existing {self.hosts_file} to {backup_file}")
            
@@ -76,6 +80,9 @@ class Blender:
             unformatted_ports = {self.unformat(host, self.reference_team): port_info for host, port_info in ports.items()}
             if Path(self.ports_file).exists():
                 backup_file = f"{self.ports_file}.backup"
+                # Remove existing backup file if it exists
+                if Path(backup_file).exists():
+                    Path(backup_file).unlink()
                 Path(self.ports_file).rename(backup_file)
                 print(f"Backed up existing {self.ports_file} to {backup_file}")
             with open(self.ports_file, 'w') as f:
@@ -171,14 +178,15 @@ class Blender:
             
             current_time = time.time()
             if current_time - last_report_time >= self.report_interval:
+                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 with self.down_hosts_lock:
                     if self.down_hosts:
-                        print(f"\n=== STATUS REPORT: {len(self.down_hosts)} hosts currently down ===")
+                        print(f"\n=== STATUS REPORT [{timestamp}]: {len(self.down_hosts)} hosts currently down ===")
                         for team, host in sorted(self.down_hosts):
                             print(f"  TEAM {team} - {host}")
                         print("=" * 50)
                     else:
-                        print(f"\n=== STATUS REPORT: All hosts are UP ===")
+                        print(f"\n=== STATUS REPORT [{timestamp}]: All hosts are UP ===")
                 
                 last_report_time = current_time
 
